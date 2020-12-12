@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Category;
 use App\Entity\Product;
 use App\Form\DataTransformer\CentsTransformer;
+use App\Form\Type\PriceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
@@ -51,7 +52,7 @@ class ProductType extends AbstractType
         // DataTransformer
         // $builder->get('price')->addModelTransformer(new CentsTransformer);
 
-        
+
         // How to create an event in a DataBuilder.I did that before knowing the DataTransformer solution (more interesting to use in this case.)
         // $builder->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event){
         //     /** @var Product */
