@@ -11,6 +11,12 @@
 					<a class="nav-link" href="#">{{ c.name }}</a>
 				</li>
 			{% endfor %}
+				<li>
+					<a href="{{ path('category_create')}}" class="nav-link">Créer une catégorie</a>
+				</li>
+				<li>
+					<a href="{{ path('product_create')}}" class="nav-link">Créer un produit</a>
+				</li>
 		</ul>
 		<ul class="navbar-nav">
 			{% if app.user %}
