@@ -31,7 +31,8 @@ class ProductType extends AbstractType
             ])
             ->add('shortDescription', TextareaType::class, [
                 'label' => 'Description courte',
-                'attr' => ['placeholder' => 'Renseignez une description assez courte mais parlante pour le visiteur']
+                'attr' => ['placeholder' => 'Renseignez une description assez courte mais parlante pour le visiteur'],
+                'required' => false,
             ])
             ->add('price', MoneyType::class, [
                 'label' => 'Prix du produit',
@@ -41,7 +42,8 @@ class ProductType extends AbstractType
             ])
             ->add('mainPicture', UrlType::class, [
                 'label' => 'Image du produit',
-                'attr' => ['placeholder' => 'Renseignez une URL d\'image']
+                'attr' => ['placeholder' => 'Renseignez une URL d\'image'],
+                'required' => false,
             ])
             ->add('category', EntityType::class, [
                 'label' => 'Catégorie',
