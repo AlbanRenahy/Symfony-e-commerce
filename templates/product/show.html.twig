@@ -29,7 +29,7 @@
 						€)</h4>
 					<span class="badge badge-info"><a href="{{ path('product_category', {'slug': product.category.slug})}}">{{ product.category.name }}</a></span>
 					<p class="card-text">{{ product.shortDescription }}</p>
-					<a href="#" class="btn btn-success btn-sm">Ajouter au panier</a>
+					<a href="{{ path('cart_add', { 'id': product.id })}}" class="btn btn-success btn-sm">Ajouter au panier</a>
 				</div>
 			</div>
 		</div>
