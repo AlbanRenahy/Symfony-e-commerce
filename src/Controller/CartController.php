@@ -20,7 +20,7 @@ class CartController extends AbstractController
         // 0. Does the product exist in database
         $product = $productRepository->find($id);
 
-        if(!$product){
+        if (!$product) {
             throw $this->createNotFoundException("Le produit $id n'existe pas");
         }
 
@@ -31,12 +31,12 @@ class CartController extends AbstractController
         // 3. See if product(id) already exist in array
         // 4. If it's the case, simply increase the quantity
         // 5. If not, add the product with quantity 1
-        if(array_key_exists($id, $cart)){
+        if (array_key_exists($id, $cart)) {
             $cart[$id]++;
         } else {
             $cart[$id] = 1;
         }
-        
+
         // 6. Register the updated array in session
         $session->set('cart', $cart);
 
@@ -46,6 +46,33 @@ class CartController extends AbstractController
         return $this->redirectToRoute('product_show', [
             'category_slug' => $product->getCategory()->getSlug(),
             'slug' => $product->getSlug()
+        ]);
+    }
+
+    /**
+     * @Route("/cart", name="cart_show")
+     *
+     * @return void
+     */
+    public function show(SessionInterface $session, ProductRepository $productRepository)
+    {
+        $detailedCart = [];
+        $total = 0;
+
+        foreach($session->get('cart', []) as $id => $qty) {
+            $product = $productRepository->find($id);
+            $detailedCart[] = [
+                'product' => $product,
+                'qty' => $qty
+            ];
+
+            $total += ($product->getPrice() * $qty);
+        }
+        
+        
+        return $this->render('cart/index.html.twig', [
+            'items' => $detailedCart,
+            'total' => $total
         ]);
     }
 }
