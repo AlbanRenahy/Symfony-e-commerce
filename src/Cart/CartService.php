@@ -44,6 +44,26 @@ class CartService
         $this->session->set('cart', $cart);
     }
 
+    public function decrement(int $id)
+    {
+        $cart=$this->session->get('cart', []);
+
+        if(!array_key_exists($id, $cart)){
+            return;
+        }
+
+        // If the product is set to 1, it needs to be deleted
+        if($cart[$id] === 1){
+            $this->remove($id);
+            return;
+        }
+
+        // If the product is set to more than 1, it needs to be decremented
+        $cart[$id]--;
+
+        $this->session->set('cart', $cart);
+    }
+
     public function getTotal(): int
     {
         $total = 0;
