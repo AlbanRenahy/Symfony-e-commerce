@@ -13,8 +13,17 @@
 	</head>
 	<body>
 		{% include "shared/_navbar.html.twig" %}
-		<div class="container"> {% block body %}{% endblock %}
-			</div>
-			{% block javascripts %}{% endblock %}
-		</body>
-	</html>
+		<div class="container">
+			{% for rubrique, messages in app.flashes %}
+				<div class="alert alert-{{rubrique}}">
+					{% for message in messages %}
+						<p>{{ message }}</p>
+					{% endfor %}
+				</div>
+
+			{% endfor %}
+			{% block body %}{% endblock %}
+		</div>
+		{% block javascripts %}{% endblock %}
+	</body>
+</html>
