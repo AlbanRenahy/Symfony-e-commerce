@@ -2,29 +2,20 @@
 
 namespace App\Controller\Purchase;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PurchasesListController extends AbstractController
 {
-    protected $security;
-    protected $router;
-    protected $twig;
-
-    public function __construct(Security $security, RouterInterface $router, Environment $twig)
-    {
-        $this->security = $security;
-        $this->router = $router;
-        $this->twig = $twig;
-    }
-
     /**
      * @Route("/purchases", name="purchase_index")
+     * @IsGranted("ROLE_USER", message="Vous devez être connecté pour accéder à vos commandes")
      */
     public function index()
     {
@@ -32,7 +23,7 @@ class PurchasesListController extends AbstractController
         /**
          * @var User
          */
-        $user = $this->security->getUser();
+        $user = $this->getUser();
 
         if (!$user) {
             throw new AccessDeniedException("Vous devez être connecté pour accéder à vos commandes");
@@ -40,9 +31,8 @@ class PurchasesListController extends AbstractController
 
         // 2. We want to know who is connected
         // 3. Pass connected user to Twig to display purchases
-        $html = $this->twig->render('purchase/index.html.twig', [
+        return $this->render('purchase/index.html.twig', [
             'purchases' => $user->getPurchases()
         ]);
-        return new Response($html);
     }
 }
