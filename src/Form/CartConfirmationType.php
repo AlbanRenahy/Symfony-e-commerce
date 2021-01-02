@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Purchase;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,7 +26,7 @@ class CartConfirmationType extends AbstractType
                     'placeholder' => 'Adresse complète pour la livraison'
                 ]
             ])
-            ->add('postCode', TextType::class, [
+            ->add('postalCode', TextType::class, [
                 'label' => 'Code postal',
                 'attr' => [
                     'placeholder' => 'Code postal pour la livraison'
@@ -44,6 +45,7 @@ class CartConfirmationType extends AbstractType
     {
         $resolver->setDefaults([
             // Configure your form options here
+            'data_class' => Purchase::class
         ]);
     }
 }
