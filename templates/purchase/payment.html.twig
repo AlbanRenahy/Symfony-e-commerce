@@ -49,7 +49,7 @@ stripe
         console.log(result.error.message)
       } else {
         // The payment succeeded!
-        console.log(result);
+        window.location.href= "{{ url('purchase_payment_success', {'id': purchase.id }) }}"
       }
     });
 });
