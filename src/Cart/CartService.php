@@ -26,6 +26,10 @@ class CartService
         $this->session->set('cart', $cart);
     }
 
+    public function empty() {
+        $this->saveCart([]);
+    }
+
     public function add(int $id)
     {
         // 1. Find the cart in session
