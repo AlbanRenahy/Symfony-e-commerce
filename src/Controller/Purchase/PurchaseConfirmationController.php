@@ -2,6 +2,7 @@
 
 namespace App\Controller\Purchase;
 
+use App\Entity\Purchase;
 use App\Cart\CartService;
 use App\Form\CartConfirmationType;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,7 +62,12 @@ class PurchaseConfirmationController
             return new RedirectResponse($this->router->generate('cart_show'));
         }
 
+
         // 5. We will create a purchase
+        /**
+         *  @var Purchase
+         */
+        $purchase = $form->getData();
 
         // 6. We will link it with connected user (Security)
 
