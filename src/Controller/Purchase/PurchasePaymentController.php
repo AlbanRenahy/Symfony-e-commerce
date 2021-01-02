@@ -2,6 +2,7 @@
 
 namespace App\Controller\Purchase;
 
+use App\Repository\PurchaseRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -12,7 +13,25 @@ class PurchasePaymentController extends AbstractController {
      *
      * @Route("/purchase/pay/{id}", name="purchase_payment_form")
      */
-    public function showCardForm() {
-        return $this->render('purchase/payment.html.twig');
+    public function showCardForm($id, PurchaseRepository $purchaseRepository) 
+    {
+        $purchase = $purchaseRepository->find($id);
+
+        if(!$purchase) {
+            return $this->redirectToRoute("cart_show");
+        }
+
+        \Stripe\Stripe::setApiKey('sk_test_51I55IDISYHOhj6l1BiNexq5yFUytrEyDFoh554krHs1hpWBxOk1DfnnNgYhKeE9IQfgu2Xgv6usCkBTy7yohl1aO00eHlQB6UQ');
+
+        $intent = \Stripe\PaymentIntent::create([
+            'amount' => $purchase->getTotal(),
+            'currency' => 'eur',
+        ]);
+
+        dd($intent->client_secret);
+
+        return $this->render('purchase/payment.html.twig', [
+            'client-secret' => $intent->client_secret
+        ]);
     }
 }
