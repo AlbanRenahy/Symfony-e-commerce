@@ -31,3 +31,8 @@ services:
     # please note that last definitions always *replace* previous ones
 
     Cocur\Slugify\Slugify: ~
+
+    App\Stripe\StripeService:
+        arguments:
+            $secretKey: sk_test_51I55IDISYHOhj6l1BiNexq5yFUytrEyDFoh554krHs1hpWBxOk1DfnnNgYhKeE9IQfgu2Xgv6usCkBTy7yohl1aO00eHlQB6UQ
+            $publicKey: pk_test_51I55IDISYHOhj6l1qOEYO2jrITU1y9A1TTPoNcmhotTU0FhHfCv66aZjviJGG1c7aGoLD93lotYGn0fRrcIGtmM500CW2ZV6bQ
