@@ -25,8 +25,7 @@
 			<div class="card">
 				<div class="card-body">
 					<h4 class="card-title">{{ product.name }}
-						({{ product.price / 100}}
-						€)</h4>
+						({{ product.price | amount }})</h4>
 					<span class="badge badge-info">
 						<a href="{{ path('product_category', {'slug': product.category.slug})}}">{{ product.category.name }}</a>
 					</span>
