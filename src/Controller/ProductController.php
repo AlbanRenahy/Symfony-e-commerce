@@ -10,6 +10,7 @@ use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -55,7 +56,7 @@ class ProductController extends AbstractController
      * @Route("/{category_slug}/{slug}", name="product_show", priority=-1)
      *
      */
-    public function show($slug, ProductRepository $productRepository)
+    public function show($slug, ProductRepository $productRepository, EventDispatcherInterface $dispatcher)
     {
         $product = $productRepository->findOneBy([
             'slug' => $slug
@@ -64,6 +65,10 @@ class ProductController extends AbstractController
         if (!$product) {
             throw $this->createNotFoundException("Le produit demandé n'existe pas");
         }
+
+        // Throw an event that allows other developers to react to taking purchase
+        $productEvent = new ProductViewEvent($product);
+        $dispatcher->dispatch($productEvent, 'product.view');
 
         return $this->render('product/show.html.twig', [
             'product' => $product,
